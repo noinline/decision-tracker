@@ -82,8 +82,11 @@ AGAIN:
         logger->listDecisions();
       else if (command == "q" || command == "q!")
         break;
-      else if (command != "q" || command.empty())
-        std::cerr << "invalid command." << '\n';
+      else if (command != "q")
+        std::cerr << "invalid command " << "\"" << command << "\". "
+                  << "try again!" << '\n';
+      else if (command.empty())
+        std::cerr << "command was empty. try again!" << '\n';
     }
   } catch (const std::exception &e) {
     throw std::runtime_error(e.what());

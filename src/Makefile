@@ -8,7 +8,7 @@ CXXFLAGS := \
 			-Wno-unused-command-line-argument
 
 CFMT ?= clang-format
-OUT := ../decision-tracker
+OUT := decision-tracker
 OUT_DIR := build
 
 SRCS := $(wildcard ./*.cpp)
@@ -17,6 +17,7 @@ OBJS := $(SRCS:./%.cpp=$(OUT_DIR)/%.o)
 
 info:
 	@echo "Building for Linux..."
+
 $(OUT_DIR)/%.o: ./%.cpp 
 	$(CXX) $(CXXFLAGS) $< -o $(CWD)$@ -c
 
@@ -31,12 +32,15 @@ decision-tracker:
 	$(MAKE) compile
 
 compile: $(OBJS)
-	$(CXX) $(OBJS) $(CXXFLAGS) -o $(OUT)
+	$(CXX) $(OBJS) $(CXXFLAGS) -o ./../$(OUT)
 
 format:
 	$(CFMT) -i $(SRCS) $(HPPS) $(HS)
 
-clean:
-	rm -rf ./$(OUT_DIR) ./$(OUT)
+install:
+	install -m 755 ./../$(OUT) /usr/local/bin/$(OUT)
 
-.PHONY: info decision-tracker compile format clean
+clean:
+	rm -rf ./$(OUT_DIR) ./../$(OUT)
+
+.PHONY: info decision-tracker compile format install clean
